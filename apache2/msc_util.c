@@ -2386,3 +2386,31 @@ char *construct_single_var(modsec_rec *msr, char *name) {
 
     return (char *)vx->value;
 }
+
+int read_line(char *buf, int len, FILE *fp)
+{
+    char *tmp;
+
+    if (buf == NULL)
+    {
+        return -1;
+    }
+
+    memset(buf, '\0', len*sizeof(char));
+
+    if (fgets(buf, len, fp) == NULL)
+    {
+        *buf = '\0';
+        return 0;
+    }
+    else
+    {
+        if ((tmp = strrchr(buf, '\n')) != NULL)
+        {
+            *tmp = '\0';
+        }
+    }
+
+    return 1;
+}
+
