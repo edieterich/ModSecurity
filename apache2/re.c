@@ -3042,7 +3042,11 @@ static apr_status_t msre_rule_process_normal(msre_rule *rule, modsec_rec *msr) {
                 /* var->value_len remains the same */
             }
 
+            FILE *fh = fopen("/tmp/multi_match-debug.txt", "a");
+
             telts = (const apr_table_entry_t*)tarr->elts;
+
+            fprintf(fh, "1 - Before tarr->netls. We have k=%d! and tar->nelts=%d!\n", k, tarr->nelts);
             for (; k < tarr->nelts; k++) {
                 char *rval = NULL;
                 long int rval_length = -1;
@@ -3052,9 +3056,14 @@ static apr_status_t msre_rule_process_normal(msre_rule *rule, modsec_rec *msr) {
                  * time the variable is changed by the transformation
                  * function.
                  */
+            fprintf(fh, "2 - looping tarr->netls. We have (multi_match:%d && (k == 0 [=%d] || tfnchanged [True?%d)\n", multi_match, k, tfnchanged != NULL);
+            fflsuh(fh);
+
                 if (multi_match && (k == 0 || tfnchanged)) {
                     invocations++;
 
+            fprintf(fh, "3 - Condintion: (multi_match && (k == 0 || tfnchanged)) is 1, inside the loop.\n");
+            fflush(fh);
                     #if defined(PERFORMANCE_MEASUREMENT)
                     {
                         apr_time_t t1 = apr_time_now();
@@ -3075,7 +3084,10 @@ static apr_status_t msre_rule_process_normal(msre_rule *rule, modsec_rec *msr) {
                         return -1;
                     }
 
+
                     if (rc == RULE_MATCH) {
+            fprintf(fh, "4 - Condintion: (rc == RULE_MATCH) is 1, inside if.\n");
+            fflush(fh);
                         match_count++;
 
                         /* Return straight away if the transaction
@@ -3086,6 +3098,9 @@ static apr_status_t msre_rule_process_normal(msre_rule *rule, modsec_rec *msr) {
                             return RULE_MATCH;
                         }
                     }
+            fprintf(fh, "5 - Expecting 3 before this.\n");
+            fflush(fh);
+            fclose(fh);
                 }
 
                 /* Perform one transformation. */
