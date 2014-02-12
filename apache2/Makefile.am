@@ -9,6 +9,7 @@ mod_security2_la_SOURCES = acmp.c \
     mod_security2.c \
     modsecurity.c \
     msc_crypt.c \
+    msc_escape.c \
     msc_geo.c \
     msc_gsb.c \
     msc_logging.c \
