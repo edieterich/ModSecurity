@@ -792,6 +792,9 @@ CMyHttpModule::OnBeginRequest(
 					delete path;
 					goto Finished;
 				}
+
+				modsecStatusEngineCall();
+
 			}
 			delete apppath;
 		}

@@ -724,6 +724,7 @@ static int hook_post_config(apr_pool_t *mp, apr_pool_t *mp_log, apr_pool_t *mp_t
                     "Original server signature: %s", real_server_signature);
         }
 
+#ifndef WIN32
         if (status_engine_state != STATUS_ENGINE_DISABLED) {
             msc_status_engine_call();
         }
@@ -732,6 +733,7 @@ static int hook_post_config(apr_pool_t *mp, apr_pool_t *mp_log, apr_pool_t *mp_t
                     "Status engine is currently disabled, enable it by set " \
                     "SecStatusEngine to On.");
         }
+#endif
     }
 
     srand((unsigned int)(time(NULL) * getpid()));

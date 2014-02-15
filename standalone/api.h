@@ -118,6 +118,10 @@ void modsecSetConfigForIISRequestBody(request_rec *r);
 
 const char *modsecIsServerSignatureAvailale(void);
 
+#ifdef WIN32
+void modsecStatusEngineCall(void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif
